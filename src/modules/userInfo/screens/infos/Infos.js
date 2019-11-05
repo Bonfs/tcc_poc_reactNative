@@ -13,14 +13,14 @@ export class Infos extends Component {
 	static navigationOptions = ({ navigation }) => {
     return {
       title: "User Info",
-      headerRight: (
+      /* headerRight: (
       	<TouchableOpacity
       		style={styles.headerButton}
       		onPress={navigation.getParam("handleSubmit")}
       	>
       		<Text style={styles.headerButtonText}>SAVE</Text>
       	</TouchableOpacity>
-      )
+      ) */
     };
   };
 
@@ -28,11 +28,12 @@ export class Infos extends Component {
   	weight: "",
   	height: "",
   	age: "",
-  	gender: "",
+		gender: "",
+		loading: false,
   };
 
 	componentDidMount() {
-		this.props.navigation.setParams({ handleSubmit: this.handleSubmit });
+		// this.props.navigation.setParams({ handleSubmit: this.handleSubmit });
 		// sign in user
     const { currentUser } = firebase.auth();
     if (currentUser === null) {
@@ -45,6 +46,7 @@ export class Infos extends Component {
 	}
 
 	handleSubmit = () => {
+		this.setState({ loading: true });
 		const { weight, height, age, gender } = this.state;
 		const bmi = this.calculateBMI(); const status = this.calculateStatus(bmi);
 
@@ -58,6 +60,7 @@ export class Infos extends Component {
 			saveUserInfo(
 				{ weight, height, age, gender, bmi, status },
 				(error) => {
+					this.setState({ loading: false });
 					NavigationService.reset("Home");
 				}
 			);
@@ -68,8 +71,7 @@ export class Infos extends Component {
 		const { weight, height } = this.state;
 		const weightNumber = parseFloat(weight);
 		const heightNumber = parseFloat(height) / 100;
-
-		// this.setState({ bmi: weightNumber / (heightNumber * heightNumber) });
+		
 		return (weightNumber / (heightNumber * heightNumber)).toFixed(2);
 		// this.setState({ bmi, status: this.calculateStatus(bmi) });
 	};
@@ -87,7 +89,7 @@ export class Infos extends Component {
 	};
 
 	render() {
-		const { weight, height, age, gender } = this.state;
+		const { weight, height, age, gender, loading } = this.state;
 		const bmi = this.calculateBMI(); const status = this.calculateStatus(bmi);
 		return (
 			<KeyboardAvoidingView
@@ -122,7 +124,7 @@ export class Infos extends Component {
 				  onValueChange={(itemValue, itemIndex) =>
 				    this.setState({gender: itemValue})
 				  }>
-				  <Picker.Item label="Select..." value="" />
+				  <Picker.Item label="Select your biological sex" value="" />
 				  <Picker.Item label="Male" value="male" />
 				  <Picker.Item label="Female" value="female" />
 				</Picker>
@@ -130,6 +132,9 @@ export class Infos extends Component {
 					<Text style={styles.bmiText}>{isNaN(bmi) ? '0' : bmi}</Text>
 					<Text style={styles.bmiText}>{status.toUpperCase()}</Text>
 				</View>
+				<Button mode="contained" loading={loading} onPress={this.handleSubmit}>
+					Save
+				</Button>
 			</KeyboardAvoidingView> 
 		);
 	}
