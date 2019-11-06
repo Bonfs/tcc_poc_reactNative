@@ -37,25 +37,25 @@ export default class BluetoothHandler {
 	startScan() {
 		this.manager.enable();
 
-		console.log("status: Scanner On");
+		// console.log("status: Scanner On");
 		return new Promise((resolve, reject) => {
 				this.manager.startDeviceScan(
 				  null,
 				  null,
 				  (error, scannedDevice) => {
 						if (error) {
-							console.warn(error);
+							// console.warn(error);
 							this.stopScan();
 							reject(error);
 							return;
 						}
 
-						console.log(scannedDevice.id);
+						// console.log(scannedDevice.id);
 						if (scannedDevice.id === DEVICE_MAC) {
 							this.stopScan();
 							this.deviceConnect(scannedDevice)
 								.then(() => {
-									console.log('do something');
+									// console.log('do something');
 									resolve();
 									// return new Promise()
 								});
@@ -102,7 +102,7 @@ export default class BluetoothHandler {
 				Promise.resolve(connected);
 			})
 			.catch((error: any) => {
-				console.warn(error);
+				// console.warn(error);
 				Promise.resolve(false);
 			});
 	}
@@ -111,18 +111,18 @@ export default class BluetoothHandler {
 		const { device } = this;
 		device.discoverAllServicesAndCharacteristics()
 		.then(results => {
-			console.log(results);
+			// console.log(results);
 			results.readCharacteristicForService(
 				CustomBluetoothProfile.basic.service,
 				CustomBluetoothProfile.pedometer.characteristicSteps
 			)
 			.then((characteristic) => {
-				console.log(characteristic);
+				// console.log(characteristic);
 				if (characteristic.value) {
 					const data = Buffer.from(characteristic.value, "base64");
-					console.log(data);
+					// console.log(data);
 					const steps: number = data.readUInt16LE(1);
-					console.warn(`Bluetooh.Step: ${steps}`);
+					// console.warn(`Bluetooh.Step: ${steps}`);
 
 					callback(steps);
 				}

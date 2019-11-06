@@ -23,11 +23,11 @@ export default class HistoricDetails extends Component {
 	calcDistance = () => {
 		const { navigation } = this.props;
 		const activity = navigation.getParam('activity', null);
-		console.log(activity);
+		// console.log(activity);
 
 		if (activity.locations.length > 0) {
 			let distance = 0;
-			console.log(activity.locations);
+			// console.log(activity.locations);
 			for (let i = 0; i < activity.locations.length-1; i++) {
 				distance += haversine(activity.locations[i], activity.locations[i+1]);
 			}
@@ -41,7 +41,7 @@ export default class HistoricDetails extends Component {
 		const { navigation } = this.props;
 		const activity = navigation.getParam('activity', null);
 		const userInfo = navigation.getParam('userInfo', null);
-		console.warn(userInfo);
+		// console.warn(userInfo);
 
 		const { weight, height, gender, age } = userInfo;
 		const { steps, duration } = activity;

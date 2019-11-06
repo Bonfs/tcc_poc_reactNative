@@ -59,7 +59,7 @@ function Layout(props) {
   function calcDistance(locations) {
 		if (locations.length > 0) {
 			let distance = 0;
-			console.log(locations);
+			// console.log(locations);
 			for (let i = 0; i < locations.length-1; i++) {
 				distance += haversine(locations[i], locations[i+1]);
 			}

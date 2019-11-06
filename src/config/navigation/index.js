@@ -31,7 +31,7 @@ const AppNavigator = createStackNavigator(
     Home: {
       screen: TabNavigator,
       navigationOptions: {
-        title: 'TCC POC RN',
+        title: 'TCC POC',
       }
     },
     Activity: {

@@ -104,7 +104,7 @@ export default class Activity extends Component<P, S> {
         distanceFilter: 50,
         notificationTitle: 'Background tracking',
         notificationText: 'enabled',
-        debug: __DEV__,
+        debug: false, // __DEV__,
         startOnBoot: false,
         stopOnTerminate: true,
         locationProvider: BackgroundGeolocation.ACTIVITY_PROVIDER,
@@ -133,7 +133,7 @@ export default class Activity extends Component<P, S> {
             longitudeDelta: 0.001,
             minZoomLevel: 15,
           }
-          console.warn(activityKey);
+          // console.warn(activityKey);
           this.setState({ mapPos: newMapPos, locations });
           if (activityKey)
             updateActivity(activityKey, { locations: locations });
@@ -162,15 +162,15 @@ export default class Activity extends Component<P, S> {
       });
 
       BackgroundGeolocation.on('start', () => {
-        console.log('[INFO] BackgroundGeolocation service has been started');
+        // console.log('[INFO] BackgroundGeolocation service has been started');
       });
 
       BackgroundGeolocation.on('stop', () => {
-        console.log('[INFO] BackgroundGeolocation service has been stopped');
+        // console.log('[INFO] BackgroundGeolocation service has been stopped');
       });
 
       BackgroundGeolocation.on('authorization', (status: any) => {
-        console.log('[INFO] BackgroundGeolocation authorization status: ' + status);
+        // console.log('[INFO] BackgroundGeolocation authorization status: ' + status);
         if (status !== BackgroundGeolocation.AUTHORIZED) {
           // we need to set delay or otherwise alert may not be shown
           Timer.setTimeout(
@@ -188,11 +188,11 @@ export default class Activity extends Component<P, S> {
       });
 
       BackgroundGeolocation.on('background', () => {
-        console.log('[INFO] App is in background');
+        // console.log('[INFO] App is in background');
       });
 
       BackgroundGeolocation.on('foreground', () => {
-        console.log('[INFO] App is in foreground');
+        // console.log('[INFO] App is in foreground');
       });
     }
 
@@ -222,20 +222,20 @@ export default class Activity extends Component<P, S> {
           },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('You can get location');
+          // console.log('You can get location');
           this.getLocation();
         } else {
-          console.log('Location permission denied');
+          // console.log('Location permission denied');
         }
       } catch (err) {
-        console.warn(err);
+        // console.warn(err);
       }
     }
     
     getLocation() {
       Geolocation.getCurrentPosition(
         (position) => {
-            console.log(position);
+            // console.log(position);
             const { latitude, longitude } = position.coords;
             const mapPos = {
               latitude,
@@ -249,7 +249,7 @@ export default class Activity extends Component<P, S> {
         },
         (error) => {
             // See error code charts below.
-            console.log(error.code, error.message);
+            // console.log(error.code, error.message);
             if (error.code === 1) {
               this.requestLocationPermission();
             }
@@ -259,7 +259,7 @@ export default class Activity extends Component<P, S> {
   
       const watchID = Geolocation.watchPosition(
         (position) => {
-            console.log(position);
+            // console.log(position);
             const { latitude, longitude } = position.coords;
             const mapPos = {
               latitude,
@@ -273,7 +273,7 @@ export default class Activity extends Component<P, S> {
         },
         (error) => {
             // See error code charts below.
-            console.log(error.code, error.message);
+            // console.log(error.code, error.message);
             if (error.code === 1) {
               this.requestLocationPermission();
             }
@@ -358,7 +358,7 @@ export default class Activity extends Component<P, S> {
             .readPedometer((steps) => {
               const { activityKey, startSteps } = this.state;
               if (startSteps === -1) {
-                console.warn('startSteps', steps);
+                // console.warn('startSteps', steps);
                 if (activityKey)
                   updateActivity(activityKey, { steps: 0 });
                 this.setState({ steps: 0, startSteps: steps });
@@ -366,7 +366,7 @@ export default class Activity extends Component<P, S> {
 
                 if (activityKey)
                   updateActivity(activityKey, { steps: steps - startSteps });
-                console.warn(steps);
+                // console.warn(steps);
                 this.setState({ steps: steps - startSteps });
               }              
             });
@@ -385,7 +385,7 @@ export default class Activity extends Component<P, S> {
         for (let i = 0; i < locations.length - 1; i++) {
           distance += haversine(locations[i], locations[i+1]);
         }
-        console.log(`calcDistance? ${distance}`);
+        // console.log(`calcDistance? ${distance}`);
         return distance.toFixed(2);
       } else {
           distance;

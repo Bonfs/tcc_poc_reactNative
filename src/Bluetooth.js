@@ -93,12 +93,12 @@ export default class Bluetooth extends Component<Props, State> {
       null,
       (error, scannedDevice) => {
         if (error) {
-          console.warn(error);
+          // console.warn(error);
           this.stopScan();
           return;
         }
 
-        console.warn(scannedDevice.id);
+        // console.warn(scannedDevice.id);
         if (scannedDevice.id === DEVICE_MAC) {
           this.stopScan();
           this.deviceConnect(scannedDevice);
@@ -122,7 +122,7 @@ export default class Bluetooth extends Component<Props, State> {
         .then(device => {
           this.setState({ device: device, connected: true });
         })
-        .catch(console.warn);
+        .catch(console.log);
     }
   };
 
@@ -139,7 +139,7 @@ export default class Bluetooth extends Component<Props, State> {
         Promise.resolve(connected);
       })
       .catch((error: any) => {
-        console.warn(error);
+        // console.warn(error);
         Promise.resolve(false);
       });
   };
@@ -163,7 +163,7 @@ export default class Bluetooth extends Component<Props, State> {
 
     const buffer = Buffer.alloc(3, [0x15, 0x02, 0x00]);
     device?.discoverAllServicesAndCharacteristics().then(resultDevice => {
-      console.warn(resultDevice);
+      // console.warn(resultDevice);
       resultDevice
         .writeCharacteristicWithResponseForService(
           CustomBluetoothProfile.heartRate.service,
@@ -171,11 +171,11 @@ export default class Bluetooth extends Component<Props, State> {
           buffer.toString("base64")
         )
         .then(characteristc => {
-          console.log(characteristc);
+          // console.log(characteristc);
           characteristc
             .writeWithResponse(buffer.toString("base64"))
             .then(c => {
-              console.log(c);
+              // console.log(c);
             })
             .catch(error => console.log(error));
         })
@@ -219,21 +219,21 @@ export default class Bluetooth extends Component<Props, State> {
   readPedometer = () => {
     const { device } = this.state;
     device?.discoverAllServicesAndCharacteristics().then(results => {
-      console.log(results);
+      // console.log(results);
       results.monitorCharacteristicForService(
         CustomBluetoothProfile.basic.service,
         CustomBluetoothProfile.pedometer.characteristicSteps,
         (error, characteristic) => {
           if (error) {
-            console.warn('error');
+            // console.warn('error');
             return;
           }
-          console.log(characteristic);
+          // console.log(characteristic);
           if (characteristic.value) {
             const data = Buffer.from(characteristic.value, "base64");
-            console.log(data);
+            // console.log(data);
             const steps: number = data.readUInt16LE(1);
-            console.warn(`Step: ${steps}`);
+            // console.warn(`Step: ${steps}`);
           }
         }
       );

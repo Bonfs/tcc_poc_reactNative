@@ -4,12 +4,12 @@
  */
 import React from "react";
 import { Platform } from "react-native";
-import { StackNavigatorConfig, BottomTabNavigatorConfig } from "react-navigation";
+// import { StackNavigatorConfig, BottomTabNavigatorConfig } from "react-navigation";
 import Icon from "react-native-vector-icons/dist/MaterialIcons";
 import { auth } from "../firebaseConstants";
 import colors from "../../theme/colors";
 
-export const stackOptions: StackNavigatorConfig = {
+export const stackOptions = {
   initialRouteName: auth().currentUser === null ? "UserInfo" : "Home", // "Home"
   // initialRouteName: "GeneralInfo", // "Home"
   headerMode: Platform.OS === "ios" ? "float" : "screen",
@@ -26,7 +26,7 @@ export const stackOptions: StackNavigatorConfig = {
   }
 };
 
-export const bottomTabOptions: BottomTabNavigatorConfig = {
+export const bottomTabOptions = {
   defaultNavigationOptions : ({ navigation }) => ({
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
       const { routeName } = navigation.state;

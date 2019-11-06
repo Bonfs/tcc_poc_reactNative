@@ -10,7 +10,7 @@ import colors from '../../../theme/colors';
 
 const ActivityItems = ({ activity, userInfo, activities }) => ({
 	render() {
-		console.warn(userInfo);
+		// console.warn(userInfo);
 		return (
 			<TouchableOpacity onPress={() => NavigationService.navigate('HistoricDetail', { activity, userInfo, activities })}>
 				<Card style={styles.container}>
