@@ -32,6 +32,7 @@ export default class HomeHistoric extends Component<*, *> {
             activitiesSnapshot.forEach((activitySnapshot: DataSnapshot) => {
               const activity = activitySnapshot.toJSON();
               activity.key = activitySnapshot.key;
+              console.log(activity);
               activities.push(activity);
             });
 

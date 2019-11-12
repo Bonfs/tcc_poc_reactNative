@@ -333,6 +333,7 @@ export default class Activity extends Component<P, S> {
           {
             text: 'Yes',
             onPress: () => {
+              BackgroundGeolocation.stop();
               if (activityKey) updateActivity(activityKey, { finished: true, duration: timer });
               BackHandler.removeEventListener(
                 'hardwareBackPress',

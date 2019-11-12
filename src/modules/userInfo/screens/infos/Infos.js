@@ -73,7 +73,6 @@ export class Infos extends Component {
 		const heightNumber = parseFloat(height) / 100;
 		
 		return (weightNumber / (heightNumber * heightNumber)).toFixed(2);
-		// this.setState({ bmi, status: this.calculateStatus(bmi) });
 	};
 
 	calculateStatus = (bmi) => {

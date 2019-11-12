@@ -36,36 +36,29 @@ export default class BluetoothHandler {
 
 	startScan() {
 		this.manager.enable();
-
-		// console.log("status: Scanner On");
+		
 		return new Promise((resolve, reject) => {
 				this.manager.startDeviceScan(
 				  null,
 				  null,
 				  (error, scannedDevice) => {
 						if (error) {
-							// console.warn(error);
 							this.stopScan();
 							reject(error);
 							return;
 						}
-
-						// console.log(scannedDevice.id);
+						
 						if (scannedDevice.id === DEVICE_MAC) {
 							this.stopScan();
 							this.deviceConnect(scannedDevice)
 								.then(() => {
-									// console.log('do something');
 									resolve();
-									// return new Promise()
 								});
-							// scannedDevice.connect();
 						}
 				  },
 				  true
 				);
 		});
-		
 	}
 
 	async deviceConnect(device: Device) {
@@ -79,7 +72,6 @@ export default class BluetoothHandler {
 			device
 				.connect()
 				.then(device => {
-					// console.warn('connected');
 					this.device = device;
 					this.isConnected = true;
 					return new Promise((resolve, reject) => {
